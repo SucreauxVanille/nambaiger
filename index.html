@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>いったいぜんたい何倍じゃー！？</title>
+
+<style>
+  body {
+    font-family: "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+    text-align: center;
+    background: #f7f7f7;
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+  }
+
+  #question {
+    font-size: 1.4rem;
+    margin: 20px 0;
+  }
+
+  /* 分数入力 */
+  .fraction {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+  }
+
+  .fraction input {
+    width: 80px;
+    height: 60px;
+    font-size: 2rem;
+    text-align: center;
+    margin: 4px 0;
+  }
+
+  .line {
+    width: 90px;
+    height: 3px;
+    background: #000;
+  }
+
+  button {
+    font-size: 1.2rem;
+    padding: 12px 24px;
+    margin-top: 15px;
+  }
+
+  #result {
+    font-size: 1.3rem;
+    margin-top: 20px;
+    min-height: 1.5em;
+  }
+</style>
+</head>
+
+<body>
+
+<h1>いったいぜんたい何倍じゃー！？</h1>
+
+<div id="question"></div>
+
+<div class="fraction">
+  <input type="number" id="num" placeholder="分子">
+  <div class="line"></div>
+  <input type="number" id="den" placeholder="分母">
+</div>
+
+<br>
+<button onclick="checkAnswer()">こたえる！</button>
+
+<div id="result"></div>
+
+<script>
+let answerN = 1;
+let answerD = 1;
+
+function newQuestion() {
+  const type = Math.floor(Math.random() * 3);
+
+  let text = "";
+
+  if (type === 0) {
+    // 等分
+    const d = Math.floor(Math.random() * 6) + 2; // 2〜7
+    const n = Math.floor(Math.random() * (d - 1)) + 1;
+    text = `${d}等分したうちの${n}つ分は元の何倍？`;
+    answerN = n;
+    answerD = d;
+  }
+
+  if (type === 1) {
+    // 割引
+    const w = Math.floor(Math.random() * 5) + 1; // 1〜5割
+    text = `${w}割引って元の何倍？`;
+    answerN = 10 - w;
+    answerD = 10;
+  }
+
+  if (type === 2) {
+    // 増加
+    const pList = [5, 10, 15, 20, 25];
+    const p = pList[Math.floor(Math.random() * pList.length)];
+    text = `${p}％増えたら元の何倍？`;
+    answerN = 100 + p;
+    answerD = 100;
+  }
+
+  document.getElementById("question").textContent = text;
+  document.getElementById("num").value = "";
+  document.getElementById("den").value = "";
+  document.getElementById("result").textContent = "";
+}
+
+function checkAnswer() {
+  const n = parseInt(document.getElementById("num").value);
+  const d = parseInt(document.getElementById("den").value);
+
+  if (!n || !d) {
+    document.getElementById("result").textContent = "分子と分母を入れてね！";
+    return;
+  }
+
+  if (n * answerD === d * answerN) {
+    document.getElementById("result").textContent = "⭕ 正解！ 今は元のこのくらい！";
+    setTimeout(newQuestion, 1000);
+  } else {
+    document.getElementById("result").textContent =
+      "❌ もう一度『残った量・増えた後』を考えてみよう！";
+  }
+}
+
+// 初回出題
+newQuestion();
+</script>
+
+</body>
+</html>
