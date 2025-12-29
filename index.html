@@ -119,14 +119,14 @@ function newQuestion() {
     answerD = 10;
   }
 
-  if (type === 2) {
-    // 増加
-    const pList = [5, 10, 15, 20, 25];
-    const p = pList[Math.floor(Math.random() * pList.length)];
-    text = `${p}％増えたら元の何倍？`;
-    answerN = 100 + p;
-    answerD = 100;
-  }
+if (type === 2) {
+  // 増加（1〜50％）
+  const p = Math.floor(Math.random() * 50) + 1; // 1〜50
+  text = `${p}％増えたら元の何倍？`;
+  answerN = 100 + p;
+  answerD = 100;
+}
+
 
   document.getElementById("question").textContent = text;
   document.getElementById("num").value = "";
